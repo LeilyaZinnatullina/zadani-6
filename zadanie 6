@@ -1,31 +1,69 @@
 //Создайте двумерный массив целых чисел. Удалите из него строку и столбец, на пересечении которых расположен минимальный элемент.
 #include<iostream>
-#include<string.h>
-#include<stdio.h>
-
 using namespace std;
-
-bool get_polyndrom(char* str) {
-    auto size = strlen(str);
-    bool i = true;
-    for (int j = 0; j < size / 2; j++) {
-        if (str[j] != str[size - 1 - j]) {
-            i = false;
-            break;
-        }
-    }
-    return i;
+void print_array(int** array, int a, int e) {
+	for (int i; i < a; i++) {
+		for (int j; j < e; j++) {
+			cout << array[i][j]<< '\t';
+		}
+		cout << endl;
+	}
 }
+void random_array(int** array, int a,int e) {
+	for (int i; i < a; i++) {
+		for (int j; j < e; j++) {
+			array[i][j] = rand() % 5;
+		}
+	}
+}
+void delete_array(int **array,int a){
+	for (int i; i < a; i++) {
+		delete[] array[i];
+	}
+	delete[] array;
+}
+void min(int** array,int a,int e,int&q,int&w )
+{
+	q = 0; w = 0;
 
+	for (int i = 0; i < a; i++)
+		for (int j = 0; j < e; j++)
+			if (array[i][j] < array[q][w])
+			{
+				q = i; w = j;
+			}
+}
 int main() {
-    setlocale(LC_ALL, "Rus");
-    256256
-        cin.getline(str, 256);
-    if (get_polyndrom(str)) {
-        cout << "Полиндром" << endl;
-    }
-    else {
-        cout << "Не полиндром" << endl;
-    }
-    return 0;
+	srand(time(NULL));
+	int a,e;
+	cin >> a>>e;
+	int** array = new int* [a];
+	for (int i; i < a; i++) {
+		array[i] = new int[e];
+	}
+	random_array(array, a,e);
+	print_array(array, a,e);
+	int q, w;
+	min(array, a,e, q, w);
+	int new_q = a - 1;
+	int new_w = e - 1;
+	int** array2 = new int* [new_q];
+	for (int i; i < new_q; i++) {
+		array2[i] = new int[new_w];
+	}
+
+	for (int i = 0; i < new_q; i++)
+	{
+		int lol = 0;
+		for (int j = 0; j < new_w; j++)
+		{
+			if (j == e) lol = 1;
+
+			array[i][j] = array2[i + (i >= a)][j + (j >= e)];
+		}
+	}
+	print_array(array2, new_q, new_w);
+	delete_array(array, a);
+	delete_array(array2, new_q);
+	return 0;
 }
