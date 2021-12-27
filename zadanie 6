@@ -115,4 +115,62 @@ int main() {
     return 0;
 }
 
+//Наименьший элемент каждой строки прямоугольной таблицы, начиная со второй, замените наибольшим элементом предыдущей строки.
+#include <iostream>
+using namespace std;
+int find_max(int* arr, int size);
+int find_min_index(int* arr, int size);
 
+int main()
+{
+    const int q = 10;
+    const int w = 4;
+
+    int arr[q][w];
+
+    for (int i = 0; i < q; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            arr[i][j] = rand() % 10;
+            cout << arr[i][j] << " ";
+        }
+       cout << "\n";
+    }
+
+    for (int i = q - 1; i >= 1; i--)
+    {
+        int temp = find_min_index(arr[i], w);
+        arr[i][temp] = find_max(arr[i - 1], w);
+    }
+
+    cout << "\n\n";
+
+    for (int i = 0; i < q; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            cout << arr[i][j] << " ";
+        }
+       cout << "\n";
+    }
+    return(0);
+}
+
+int find_max(int* arr, int size)
+{
+    int max = arr[0];
+    for (int i = 1; i < size; i++)
+        if (arr[i] > max) max = arr[i];
+
+    return(max);
+}
+
+int find_min_index(int* arr, int size)
+{
+    int min = 0;
+    for (int i = 1; i < size; i++)
+        if (arr[i] < arr[min]) min = i;
+
+    return 0;
+}
